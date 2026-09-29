@@ -1,0 +1,14 @@
+{
+  "name": "opentypeless-azure-bridge",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Windows local Azure OpenAI relay and watchdog for OpenTypeless",
+  "license": "MIT",
+  "engines": {"node": ">=22"},
+  "scripts": {
+    "test": "node scripts/run-tests.mjs",
+    "check": "node scripts/check-public.mjs",
+    "release": "node scripts/build-release.mjs"
+  }
+}
