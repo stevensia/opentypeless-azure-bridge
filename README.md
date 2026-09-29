@@ -6,6 +6,8 @@
 
 ## 从哪里开始
 
+首次使用请先从 [OpenTypeless 官方下载页面](https://www.opentypeless.com/en/download) 安装应用。应用的功能介绍与使用方法见 [OpenTypeless 中文 README](https://github.com/tover0314-w/opentypeless/blob/main/README_zh.md)。
+
 | 你的情况 | 使用路径 |
 | --- | --- |
 | 还没有 Azure 账号、资源或模型部署 | 先读 [从零准备 Azure](docs/azure-from-zero.md)；资源脚本默认只输出 Plan |
