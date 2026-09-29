@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "cloud": "AzureCloud",
+  "tenantId": "<your-tenant-id>",
+  "subscriptionId": "<your-subscription-id>",
+  "resourceGroup": "rg-voice-bridge",
+  "resourceName": "<globally-unique-resource-name>",
+  "location": "eastus2",
+  "kind": "AIServices",
+  "principalObjectId": "<your-entra-object-id>",
+  "principalType": "User",
+  "speech": {
+    "deployment": "speech-main",
+    "model": "gpt-transcribe",
+    "version": "2026-07-28",
+    "sku": "GlobalStandard",
+    "capacity": 10
+  },
+  "polish": {
+    "deployment": "polish-main",
+    "model": "gpt-6-sol",
+    "version": "2026-09-22",
+    "sku": "GlobalStandard",
+    "capacity": 10,
+    "reasoningEffort": "none",
+    "minimumOutputTokens": 32
+  }
+}

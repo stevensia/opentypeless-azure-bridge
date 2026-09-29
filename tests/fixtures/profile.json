@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "cloud": "AzureCloud",
+  "tenantId": "11111111-1111-1111-1111-111111111111",
+  "azureEndpoint": "https://example-resource.cognitiveservices.azure.com",
+  "polishEndpoint": "https://example-resource.openai.azure.com",
+  "tokenResource": "https://cognitiveservices.azure.com/",
+  "audioApiVersion": "2025-03-01-preview",
+  "port": 17863,
+  "defaultModel": "speech-main",
+  "transcriptionDeployments": ["gpt-4o-transcribe", "speech-main", "speech-mini"],
+  "defaultLanguage": "zh",
+  "transcriptionPrompt": "Chinese and English software terminology.",
+  "polishModel": "polish-main",
+  "polishDeployments": {
+    "polish-main": {"reasoningEffort": "none", "minimumOutputTokens": 32},
+    "polish-alternative": {"reasoningEffort": "none", "minimumOutputTokens": 32},
+    "gpt-5.2": {"reasoningEffort": "none", "minimumOutputTokens": 32},
+    "gpt-4o": {"minimumOutputTokens": 1}
+  }
+}

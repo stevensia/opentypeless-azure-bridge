@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "cloud": "AzureCloud",
+  "tenantId": "<your-tenant-id>",
+  "azureEndpoint": "https://<your-resource-subdomain>.cognitiveservices.azure.com",
+  "polishEndpoint": "https://<your-resource-subdomain>.openai.azure.com",
+  "tokenResource": "https://cognitiveservices.azure.com/",
+  "audioApiVersion": "2025-03-01-preview",
+  "port": 17863,
+  "defaultModel": "speech-main",
+  "transcriptionDeployments": ["speech-main"],
+  "defaultLanguage": "zh",
+  "transcriptionPrompt": "中文口述，保留英文产品名称与技术术语。",
+  "polishModel": "polish-main",
+  "polishDeployments": {
+    "polish-main": {"reasoningEffort": "none", "minimumOutputTokens": 32}
+  }
+}

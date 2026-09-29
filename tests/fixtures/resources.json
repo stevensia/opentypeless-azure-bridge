@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "cloud": "AzureCloud",
+  "tenantId": "11111111-1111-1111-1111-111111111111",
+  "subscriptionId": "22222222-2222-2222-2222-222222222222",
+  "resourceGroup": "rg-example",
+  "resourceName": "example-resource",
+  "location": "eastus2",
+  "kind": "AIServices",
+  "principalObjectId": "33333333-3333-3333-3333-333333333333",
+  "principalType": "User",
+  "speech": {"deployment":"speech-main","model":"gpt-transcribe","version":"2026-07-28","sku":"GlobalStandard","capacity":10},
+  "polish": {"deployment":"polish-main","model":"gpt-6-sol","version":"2026-09-22","sku":"GlobalStandard","capacity":10,"reasoningEffort":"none","minimumOutputTokens":32}
+}
