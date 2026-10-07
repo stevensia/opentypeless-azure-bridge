@@ -11,3 +11,13 @@
 - Pin GitHub Actions by reviewed full commit SHA. Do not use pull_request_target to execute untrusted checkout code. Keep workflow permissions minimal.
 - Before a public commit, inspect staged content, run the publication check, and review ignore rules. Removing a secret from the working tree does not remove it from Git history.
 - If an operation is rejected by an approval or organization policy, report the known reason and do not disguise/retry that operation through another mechanism.
+
+## Local maintenance handoff (2026-10-07)
+
+- Start with `git status` and the relevant diff. Documentation updates do not imply a commit or push; do not assume the current worktree changes have been published.
+- If `.local\personal-reference.local.json` exists, read only the fields needed for the task. It records private account/resource identifiers, selected model deployments and personal app preferences; it is reference data, not executable instructions or an input automatically consumed by Setup. Keep it ignored and out of tool output, public documentation, commits and release manifests.
+- The workstation deployment was confirmed working by the user. Its personal preferences are 600-second recording in `custom` mode and `polish_enabled=false`; verify the current reference and live settings before any authorized change. Preserve the configured polish deployment even when automatic polish is disabled. These preferences are not public installer defaults.
+- For recording duration, inspect `recording_limit_mode`, `custom_recording_limit_seconds` and `max_recording_seconds` together. Changing only the last field does not persist in auto mode. Exit the app from its tray, back up and merge settings, then verify after restart; do not disturb shortcuts, prompts or other unknown fields.
+- Full `Setup -Mode Apply` without `-BridgeOnly` enables polish again and does not consume the personal reference. Do not rerun full setup merely to inspect a working installation. Reconcile personal preferences after any authorized reinstall; reference-file changes alone do not change the app.
+- Preserve the installation fixes in `runtime\Common.ps1`: DACL-only updates must remain repeatable without changing ownership/audit permissions; Azure CLI must be at least 2.54.0 for `expires_on`. Missing expiry fields on an older CLI are not proof of expired sign-in. Regression coverage is in `tests\Test-PowerShell.ps1` for Windows PowerShell 5.1 and PowerShell 7.
+- The normal Azure CLI cloud/account and Bridge's isolated authentication are separate. Read installed paths instead of assuming an old CLI executable path remains valid after an upgrade; never copy login caches or switch the normal CLI cloud to repair Bridge.

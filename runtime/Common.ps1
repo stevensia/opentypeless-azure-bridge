@@ -24,7 +24,13 @@ function Set-PrivateDirectory {
         $rule = New-Object Security.AccessControl.FileSystemAccessRule($identity, 'FullControl', 'ContainerInherit,ObjectInherit', 'None', 'Allow')
         $acl.AddAccessRule($rule)
     }
-    Set-Acl -LiteralPath $Path -AclObject $acl
+    # Persist only the modified DACL, never ownership or audit permissions.
+    $directory = Get-Item -LiteralPath $Path
+    if ($PSVersionTable.PSVersion.Major -ge 7) {
+        [IO.FileSystemAclExtensions]::SetAccessControl($directory, $acl)
+    } else {
+        $directory.SetAccessControl($acl)
+    }
 }
 
 function Invoke-BridgeAz {
@@ -35,6 +41,16 @@ function Invoke-BridgeAz {
         & $Config.azureCliPath @Arguments
         if ($LASTEXITCODE -ne 0) { throw 'Azure CLI failed. Complete sign-in/MFA or check Azure permissions.' }
     } finally { $env:AZURE_CONFIG_DIR = $before }
+}
+
+function Assert-AzureCliVersion {
+    param([string]$Path)
+    $output = & $Path version --output json --only-show-errors
+    if ($LASTEXITCODE -ne 0) { throw 'Unable to determine Azure CLI version.' }
+    $version = [version](($output -join "`n" | ConvertFrom-Json).'azure-cli')
+    if (-not $version -or $version -lt [version]'2.54.0') {
+        throw 'Azure CLI 2.54.0 or newer is required for the UTC expires_on token field. Upgrade Azure CLI before setup.'
+    }
 }
 
 function Get-BridgeHealth {

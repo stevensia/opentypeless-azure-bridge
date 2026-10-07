@@ -31,7 +31,7 @@
 
 ## 已有 Azure 资源：最短路径
 
-准备 Windows 10/11、Node.js 22 或更新的受支持 LTS、Azure CLI、Windows PowerShell 5.1，以及已安装并完成首次引导的 OpenTypeless。安装器可通过 `-InstallDependencies` 安装缺少的 Node.js/Azure CLI；账号、订阅、MFA 和配额申请不能代办。
+准备 Windows 10/11、Node.js 22 或更新的受支持 LTS、Azure CLI 2.54.0 或更新版本、Windows PowerShell 5.1，以及已安装并完成首次引导的 OpenTypeless。安装器可通过 `-InstallDependencies` 安装缺少的 Node.js/Azure CLI；已安装的旧版 Azure CLI 需先升级。账号、订阅、MFA 和配额申请不能代办。
 
 在仓库目录执行：
 
@@ -73,6 +73,29 @@ OpenTypeless 润色服务商选 OpenAI，表示使用兼容协议；实际后端
 - 默认登录只影响工具自己的 `AZURE_CONFIG_DIR`，不更改日常 Azure CLI 的云、租户和订阅。
 
 Windows 可以使用本地账户，但默认方案仍需对 Azure 登录。证书服务主体需要管理员预先准备证书注册和 RBAC；脚本入口不等于已为你创建证书。详见 [认证](docs/authentication.md)。
+
+## 个人配置与维护交接
+
+本机可使用 `.local\personal-reference.local.json` 保存登录账号、订阅/租户、资源、实际模型部署与版本、运行目录及个人偏好。该文件是**人工或 AI 维护的参考记录，不是 Setup 自动读取的输入**；安装 profile 仍是 `.local\azure-profile.local.json`。参考文件不存在时不要假定这台机器已配置，也不要从公开示例推断真实资源。
+
+`.gitignore` 已忽略整个 `.local/`。即使不含密码，该参考文件中的账号和资源标识也属于私有信息：不要提交、强制添加到 Git、放入 Release，或复制到公开 README、Issue 和日志。不要向其中保存 Key、Token、证书或认证缓存。
+
+如需 **600 秒录音且关闭自动 AI 润色**，对应的 OpenTypeless 1.1.59 偏好如下；这是个人选择，不会改变安装器的通用默认值：
+
+| 设置字段 | 值 | 说明 |
+| --- | --- | --- |
+| `recording_limit_mode` | `"custom"` | 必须切换为自定义模式；只修改最大时长可能在启动后被重新计算 |
+| `custom_recording_limit_seconds` | `600` | 用户选择的录音上限 |
+| `max_recording_seconds` | `600` | 应用实际采用的时长；重启后再次确认 |
+| `polish_enabled` | `false` | 关闭自动 AI 润色，保留已配置的模型和连接信息 |
+
+修改应用配置前须从托盘退出，并备份原设置、保留其他字段；修改后重新启动，确认设置持久化。`custom-whisper` 的自动时长模式可能采用 120 秒，不能把它误判为 Bridge 限制。**完整运行 `Setup -Mode Apply`（不带 `-BridgeOnly`）会再次开启润色**，不会自动恢复个人参考文件中的偏好；升级前先核对维护范围，升级后复核个人设置。
+
+### 2026-10-07 维护记录
+
+- 修复 `Set-PrivateDirectory` 重复设置目录 ACL 时的 `SeSecurityPrivilege` 错误：仅写入 DACL（访问控制规则），不改所有者或审计权限，不需要为此提权。补充了重复执行、子目录和权限范围检查。
+- Setup 预检查新增 Azure CLI 最低版本 `2.54.0` 检查，避免旧版缺少 `expires_on` 导致“登录成功但 Bridge 返回 503”。不把旧版本地时间字段直接当作 UTC，也不因此反复要求用户登录。
+- 本次本机部署的 Azure 语音与润色连接已连通，用户已确认可用；后续按个人偏好关闭润色并设为 600 秒，重启后配置仍保持。实际账号和模型部署以私有参考文件为准，不把本机状态视作其他安装的验证结果。
 
 ## 日常控制
 

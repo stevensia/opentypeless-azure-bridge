@@ -52,6 +52,7 @@ try {
         speechDeployment=$profile.defaultModel; polishDeployment=$profile.polishModel
     }
     $report | ConvertTo-Json
+    if ($azPath) { Assert-AzureCliVersion $azPath }
     if (-not $report.guardianCompilerAvailable -or -not $report.taskSchedulerAvailable) { throw 'Windows .NET Framework compiler and ScheduledTasks module are required for the guardian.' }
     if ($nodePath) {
         $major = & $nodePath -p 'parseInt(process.versions.node)'
